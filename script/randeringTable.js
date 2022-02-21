@@ -3,6 +3,8 @@ const worker = new Worker('script/worker.js');
 const table = document.createElement('table');
 document.querySelector('.tableDiv').append(table);
 
+let intervalCreate;
+
 const mapping = {
   currentRate: (payload) => {
     const result = payload.map(
@@ -69,19 +71,25 @@ function indicatedCurrent(id) {
       id: daysActualCurrent[id].id,
       startDate: plusDate(new Date(inputStartDate.value), i),
     })
-
-    if (i == differenceDays()) setTimeout(goCreateTableAndDiagramm, 3000)
   }
+intervalCreate = setInterval(() => {
+  console.log(arrayCreateTable[differenceDays()-1])
+  if(arrayCreateTable[differenceDays()-1] != undefined)
+  goCreateTableAndDiagramm();
+}, 100);
+
 }
 
 function goCreateTableAndDiagramm(){
   google.charts.setOnLoadCallback(drawChart);
   CreateTable();
+  console.log(arrayCreateTable);
+  clearInterval(intervalCreate);
 }
 
 function CreateTable() {
   arrayCreateTable.sort(function (a, b) { return a.count - b.count });
-  
+
    const trMain = document.createElement('tr');
     const th = document.createElement('th');
     th.innerText = 'Count';
