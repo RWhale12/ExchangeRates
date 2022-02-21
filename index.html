@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ACC</title>
+    <link rel="stylesheet" href="style/style.css">
+    <script src = "https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+       google.charts.load('current', {packages: ['corechart']});     
+    </script>
+</head>
+<body>
+    <div class="header">
+        <p>ActualCourseCurrent</p>
+    </div>
+    <div class="mainDiv">
+        <div class="mainOneDiv">
+
+            <div class="infoCourse">
+                <select name="cur" class="curList">
+                    <option>--Выберите валюту--</option>
+                </select>
+                <div>
+                    <button onclick="btns(6);">week</button>
+                    <button onclick="btns(29);">mount</button>
+                    <button onclick="btns(89)">quarter</button>
+                    <button onclick="btns(364);">year</button>
+                </div>
+                <div>
+                    <input class="inputStartDate calendar" type="date">
+                    <input class="inputEndDate calendar" type="date">
+                </div>
+            </div>
+            <div class="infoCourse">
+                <div class="tableDiv"></div>
+            </div>
+
+        </div>
+
+        <div class="mainTwoDiv">
+
+        </div>
+    </div>
+    <script src="script/randeringTable.js"></script>
+    <script src="script/script.js"></script>
+    <script src="script/createDiagramm.js"></script>
+</body>
+</html>
