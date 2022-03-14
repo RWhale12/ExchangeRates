@@ -1,11 +1,11 @@
-const daysActualCurrent = [], arrayCreateTable = [];
+const daysActualCurrent = [], arrayCreateTable = [], indicatedCourse = [];
 const inputStartDate = document.querySelector(".inputStartDate");
 const inputEndDate = document.querySelector(".inputEndDate");
 
 const curList = document.querySelector(".curList");
 curList.addEventListener('change', () => {
-    console.log(curList.options.selectedIndex - 1);
-    const id = curList.options.selectedIndex - 1;
+    console.log(curList.options.selectedIndex);
+    const id = curList.options.selectedIndex;
     settingCalendar(id);
     indicatedCurrent(id);
 })
@@ -20,13 +20,20 @@ inputEndDate.addEventListener('change', () => {
 
 function CreateCurList() {
     for (let i = 0; i <= daysActualCurrent.length - 1; i++) {
-        if (new Date(daysActualCurrent[i].dateEnd) < new Date()) {
-            curList.innerHTML += `<option style = 'color:red'>-${daysActualCurrent[i].abr}- NO ACTUAL</option>`
-        }
-        else {
-            curList.innerHTML += `<option style = 'color:green'>-${daysActualCurrent[i].abr}- ACTUAL</option>`
+        if (new Date(daysActualCurrent[i].dateEnd) > new Date()) {
+            curList.innerHTML += `<option>-${daysActualCurrent[i].name}-</option>`
+            if(daysActualCurrent[i].abr == threeActualCurrent[0] ||
+                daysActualCurrent[i].abr == threeActualCurrent[1] ||
+                daysActualCurrent[i].abr == threeActualCurrent[2]){
+                    threeActualCurrent.push({
+                        abr: daysActualCurrent[i].abr,
+                        id: daysActualCurrent[i].id,
+                    })
+                }
         }
     }
+    threeCurrent();
+
 }
 
 function settingCalendar(id) {
@@ -34,15 +41,19 @@ function settingCalendar(id) {
     inputStartDate.max = daysActualCurrent[id].dateEnd.slice(0, 10);
     inputStartDate.min = daysActualCurrent[id].dateSt.slice(0, 10);
     inputEndDate.min = daysActualCurrent[id].dateSt.slice(0, 10);
-    inputEndDate.value = daysActualCurrent[id].dateEnd.slice(0, 10);
-    // inputStartDate.value = daysActualCurrent[id].dateStart.slice(0,10);
-    inputStartDate.value = minusDate(new Date(daysActualCurrent[id].dateEnd), 6);
 
-    if (daysActualCurrent[id].dateEnd.slice(0, 10) > todayDate()) {
-        inputEndDate.max = todayDate();
-        inputStartDate.max = todayDate();
-        inputStartDate.value = minusDate(new Date(), 6);
-        inputEndDate.value = todayDate();
+    if (inputEndDate.value == '' || inputStartDate.value == '') {
+        inputEndDate.value = daysActualCurrent[id].dateEnd.slice(0, 10);
+        // inputStartDate.value = daysActualCurrent[id].dateStart.slice(0,10);
+        inputStartDate.value = minusDate(new Date(daysActualCurrent[id].dateEnd), 6);
+
+        if (daysActualCurrent[id].dateEnd.slice(0, 10) > todayDate()) {
+            inputEndDate.max = todayDate();
+            inputStartDate.max = todayDate();
+            inputStartDate.value = minusDate(new Date(), 6);
+            inputEndDate.value = todayDate();
+        }
+
     }
 }
 
